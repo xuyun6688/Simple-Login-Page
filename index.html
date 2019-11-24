@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/theme-soft.css">
+  <base target="frm_resp">
+  <title>My Page</title>
+  <style>
+    * {
+      outline: none !important;
+      font-size: 14px;
+    }
+    .nav-link {
+      text-transform: none !important;
+      font-size: 14px !important;
+    }
+    .page-header {
+      margin-top: 20px;
+    }
+    .page-header:first-child {
+      margin-top: 80px;
+    }
+    .jumbotron {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      margin-bottom: 0;
+    }
+    .jumbotron p:last-child {
+      margin-bottom: 0;
+    }
+    .jumbotron-heading {
+      font-weight: 300;
+    }
+    .jumbotron .container {
+      max-width: 40rem;
+    }
+    #image-upload {
+      display: none;
+    }
+    #user-page, #logoff, #resource {
+      display: none;
+    }
+    #msg-signin, #msg-signup {
+      font-weight: bold;
+      color: #900;
+      padding: 15px 15px 0 15px;
+    }
+    .card-img {
+      padding: 5px 5px;
+      overflow: hidden;
+    }
+    .code {
+      margin: auto 0;
+    }
+    footer {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+
+    footer p {
+      margin-bottom: .25rem;
+    }
+    .modal-footer {
+      justify-content: center;
+    }
+    .modal-footer .btn-close {
+      width: 50%;
+    }
+    
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar navbar-dark bg-dark shadow-sm fixed-top">
+      <div class="container d-flex justify-content-between">
+        <a href="javascript:location.reload()" class="navbar-brand d-flex align-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="mr-2"
+            viewBox="0 0 24 24" focusable="false">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+            <circle cx="12" cy="13" r="4" /></svg>
+          <strong>我的相册</strong>
+        </a>
+        <ul class="navbar-nav">
+          <li class="nav-item d-flex align-items-center">
+            <a class="nav-link" href="javascript:;" id="signup">注册 &nbsp;</a>
+            <a class="nav-link" href="javascript:;" id="signin">登录 &nbsp;</a>
+            <a class="nav-link" href="javascript:;" id="logoff">注销 &nbsp;</a>
+            <a class="nav-link" href="javascript:;" id="user-page">用户 &nbsp;</a>
+          </li>
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+
+    <div id="myModal-signup" class="modal fade" tabindex="-1" role="dialog">
+      <div id="modal-mode" class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">用户注册</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form action="api/signup.php" onsubmit="return false" method="post" class="form-signup">
+                <div class="form-group">
+                  <label for="uuser">用户名：</label>
+                  <input type="text" name="user" id="uuser" class="form-control" placeholder="Username" required
+                    autofocus>
+                </div>
+                <div class="form-group">
+                  <label for="upass">密码：</label>
+                  <input type="password" name="pass" id="upass" class="form-control" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword">确认密码：</label>
+                  <input type="password" id="upass2" class="form-control" placeholder="Password Confirm" required>
+                  <div id="msg-signup"></div>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-lg btn-primary btn-block" onclick="signup()">注册 Sign up</button>
+                </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="myModal-signin" class="modal fade" tabindex="-1" role="dialog">
+        <div id="modal-mode" class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">用户登录</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form action="api/signin.php" onsubmit="return false" method="get" class="form-signin">
+                  <div class="form-group">
+                    <label for="user">用户名：</label>
+                    <input type="text" id="user" class="form-control" placeholder="Username" required autofocus>
+                  </div>
+                  <div class="form-group">
+                    <label for="pass">密码：</label>
+                    <input type="password" id="pass" class="form-control" placeholder="Password" required>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-md-6">
+                      <label for="code">验证码：</label>
+                      <input type="text" id="code" class="form-control" placeholder="输入验证码" required>
+                    </div>
+                    <div class="col-md-6">
+                      <img src="api/code.php" title="点击刷新" class="code" style="max-width:100%;max-height:61px">
+                    </div>
+                    <div id="msg-signin"></div>
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block" onclick="signin()">登录 Sign in</button>
+                  </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">关闭</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="myModal-logoff" class="modal fade" tabindex="-1" role="dialog">
+        <div id="modal-mode" class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">用户注销</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <p>确认要进行注销吗？</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="logoff()" data-dismiss="modal">确定</button>
+              </div>
+          </div>
+        </div>
+      </div>
+  </header>
+
+  <div class="container">
+    <!-- 标题文字框 -->
+    <div class="page-header">
+      <div class="jumbotron">
+        <h1 class="display-3">您好！</h1>
+        <p class="lead">这是我的相册网站，欢迎大家来注册使用</p>
+        
+        <hr class="my-4">
+        <p id='please-upload'>本网站开放自由上传，注册登录后可使用~</p>
+        <div class="lead row" id="image-upload">
+          <form action="api/upload.php" false" enctype="multipart/form-data" method="post" class="col-md-4" id="image-upload-form">
+            <div class="form-group">
+              <div class="input-group mt-1">
+                <div class="custom-file">
+                  <label class="custom-file-label" for="file">选择</label>
+                  <input type="file" name="file" id="file" class="custom-file-input">
+                </div>
+                <div class="input-group-append">
+                  <button class="input-group-text" id="upload">上传</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-header" id="resource">
+      <div class="row">
+        <div class="col-lg-12">
+          <h2 id="nav-tabs">资源</h2>
+          <div class="bs-component">
+
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#my">我的图片</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#others" id="other">别人的图片</a>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="my">
+                <div class="row mt-3" id="mypics">
+                  <!-- <div class="col-md-3">
+                    <div class="card mb-3">
+                      <h3 class="card-header">01</h3>
+                      <img style="height: 160px; width: 100%; display: block;" src="" alt="Card image">
+                      <div class="card-body">
+                        <h5 class="card-title">seasky.png</h5>
+                        <h6 class="card-subtitle text-muted">subtitle</h6>
+                      </div>
+                      <div class="card-footer text-muted">144 K</div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+
+              <div class="tab-pane fade" id="others">
+                <div class="row mt-3" id="opics">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/md5.min.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+
+  <script>
+    function encode(str) {
+      var hash = md5.create();
+      hash.update(str);
+      var code = hash.hex();
+      return code;
+    }
+    
+    function imgList() {
+      var login_data = localStorage['USERINFO'];
+      var data = {};
+      if(login_data === undefined) {
+        return
+      } else {
+        data = JSON.parse(login_data);
+        $.get('api/login-check.php', data, function(resp) {
+          if(!resp.error) {
+              $('#user-page').css({'color':'white','fontWeight':'bold'});
+              $('#signup').hide();
+              $('#signin').hide();
+              $('#user-page').show().html('你好，' + resp.user);
+              $('#logoff').show();
+              $('#image-upload').show();
+              $('#please-upload').html('点此上传图片~');
+              $('#resource').show();
+          }
+       }, 'json')
+      }
+      $.get('api/image-list.php',{}, function(resp) {
+        console.log(resp);
+        if(resp.length === 0) {
+          return;
+        }
+        var myArr = resp.my;
+        var oArr = resp.others;
+        // var oUser = '';
+        // for(var i = 0; i < resp.length; i++) {
+        //   if(resp[i].owner === data.user) {
+        //     myArr.push(resp[i]);
+        //   } else {
+        //     oUser = resp[i].owner;
+        //     oArr.push(resp[i]);
+            
+        //   }
+        // }
+        // if(oUser === '') {
+        //   $('#other').html('别人的图片');
+        // } else {
+        //   $('#other').html(oUser + '的图片');
+        // }
+        $('#mypics').empty();
+        for(var i = 0; i < myArr.length; i++) {
+          var src = 'uploads/' + myArr[i].fname;
+          var name = myArr[i].fname.split('.')[0];
+          var type = myArr[i].fname.split('.')[1];
+          var num = i + 1;
+          $('#mypics').append(
+            '<div class="col-md-3 col-lg-2">'+
+              '<div class="card mb-3">'+
+                '<h3 class="card-header">'+num+'</h3>'+
+                '<div class="card-img" style="height: 150px;"><img style="width: 100%; display: block;" src="'+src+'" alt="'+name+'" /></div>'+
+                '<div class="card-body">'+
+                  '<h5 class="card-title">'+name+'</h5>'+
+                  '<h6 class="card-subtitle text-muted">'+type+'</h6>'+
+                '</div>'+
+              '</div>'+
+            '</div>'
+          );
+        }
+
+        $('#opics').empty();
+        for(var i = 0; i < oArr.length; i++) {
+          var osrc = 'uploads/' + oArr[i].fname;
+          var oname = oArr[i].fname.split('.')[0];
+          var otype = oArr[i].fname.split('.')[1];
+          $('#opics').append(
+            '<div class="col-md-3 col-lg-2">'+
+              '<div class="card mb-3">'+
+                '<h3 class="card-header">'+oArr[i].owner+'</h3>'+
+                '<div class="card-img" style="height: 120px;"><img style="width: 100%; display: block;" src="'+osrc+'" alt="'+oname+'" /></div>'+
+                '<div class="card-body">'+
+                  '<h5 class="card-title">'+oname+'</h5>'+
+                  '<h6 class="card-subtitle text-muted">'+otype+'</h6>'+
+                '</div>'+
+              '</div>'+
+            '</div>'
+          );
+        }
+      },'json')
+    }
+    imgList();
+
+    function signup() {
+      var form_signup = $('.form-signup');
+      var user = $('#uuser').val();
+      var pass = $('#upass').val();
+      var pass2 = $('#upass2').val();
+      if(user === '' || user.length < 4 || pass === '' || pass2 === '') {
+        return false;
+      } else if(pass !== pass2) {
+        $('#msg-signup').html('两次输入的密码不同！');
+        return false;
+      } else {
+        // var data = form_signup.serialize();
+        $.post('api/signup.php', {
+          user: user,
+          pass: encode(pass)
+        }, function(resp) {
+          if(resp.error) {
+            $('#msg-signup').html(resp.text);
+          } else {
+            $('#msg-signup').html(resp.text);
+            setTimeout(function() {
+              $('#uuser').val('');
+              $('#upass').val('');
+              $('#upass2').val('');
+            }, 500); 
+            $('#please-upload').html('注册成功！请<b style="color: #900">登录</b>……')
+            $('#myModal-signup').modal('hide');
+          }
+        }, 'json')
+      }
+    } 
+
+    function signin() {
+      var form_signin = $('.form-signin');
+      var user = $('#user').val();
+      var pass = $('#pass').val();
+      var code = $('#code').val();
+      // var data = {user: user, pass: encode(pass), code: code};
+      if (code.length < 4 && code.length > 0) {
+        $('#msg-signin').html('验证码输入错误！');
+        return false
+      } else if(user === '' || pass === '' || code === '') {
+        return false;
+      } else {
+        $.get('api/signin.php', {user: user, pass: encode(pass), code: code}, function(resp) {
+          if (resp.error) {
+            $('.code').attr('src', 'api/code.php?' + Date.now())
+            $('#code').val('');
+            $('#msg-signin').html(resp.text);
+            return false;
+          } else {
+            var data = {user: user, pass: encode(pass)};
+            data = JSON.stringify(data);
+            localStorage['USERINFO'] = data;
+            $('#msg-signin').html(resp.text);
+            setTimeout(function() {
+              $('#user').val('');
+              $('#pass').val('');
+              $('#code').val('');
+            }, 600);
+            imgList();
+            $('#user-page').css({'color':'white','fontWeight':'bold'});
+            $('#signup').hide();
+            $('#signin').hide();
+            $('#user-page').show();
+            $('#user-page').show().html('你好，' + resp.user);
+            $('#logoff').show();
+            $('#image-upload').show();
+            $('#please-upload').html('点此上传图片~');
+            $('#resource').show();
+            $('#myModal-signin').modal('hide');
+          }  
+        }, 'json')
+      }
+
+    }
+    
+    function logoff() {
+      localStorage.removeItem('USERINFO');
+      setTimeout(function() {
+        $('#msg-signin').html('');
+        $('.code').attr('src', 'api/code.php?' + Date.now())
+        $('#signup').show();
+        $('#signin').show();
+        $('#user-page').hide();
+        $('#logoff').hide();
+        $('#image-upload').hide();
+        $('#resource').hide();
+        $('#please-upload').html('本网站开放自由上传，请先登录……');
+      }, 600)
+    }
+
+    $(function() {
+      $('#uuser').blur(function() {
+        if($(this).val().length < 4) {
+          $('#msg-signup').html('用户名不能少于4位');
+        } else {
+          $('#msg-signup').html('OK');
+        }
+      })
+
+      $("#signup").on("click", function() {
+        $('#myModal-signup').modal('show');
+        $('#msg-signup').html('');
+      })
+
+      $("#signin").on("click", function() {
+        $('#myModal-signin').modal();
+      })
+
+      $("#logoff").on("click", function() {
+        $('#myModal-logoff').modal();
+      })
+
+      $('.code').on('click', function () {
+        $(this).attr('src', 'api/code.php?' + Date.now());
+      })
+    })
+
+
+  </script>
+</body>
+</html>

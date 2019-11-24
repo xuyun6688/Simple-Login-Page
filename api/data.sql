@@ -1,0 +1,23 @@
+-- 数据库初始化
+DROP DATABASE IF EXISTS test;
+CREATE DATABASE test;
+
+USE test;
+
+-- 用户表
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user` VARCHAR(16) NOT NULL,
+  `pass` VARCHAR(36) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+INSERT INTO `users` (`user`,`pass`) VALUES ('admin','admin');
+
+-- 图片表
+DROP TABLE IF EXISTS `photos`;
+CREATE TABLE `photos` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `owner` VARCHAR(16) NOT NULL,
+  `fname` VARCHAR(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
